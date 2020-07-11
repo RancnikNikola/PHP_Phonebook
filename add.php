@@ -1,12 +1,27 @@
 <?php 
 
-// Get files for connection to database and functions
-require('connection.php');
-include('functions.php');
+include_once('dbconfig.php');
 
-// Get everything from database as associative array
-$contacts = find_all_subjects();
-echo $contacts;
+if(isset($_POST['btn-save'])) {
+    $fname = $_POST['firstName'];
+    $lname = $_POST['lastName'];
+    $contact = $_POST['phoneNumber'];
+    $email = $_POST['email'];
+    $paddress = $_POST['personAddress'];
+
+    if($crud->create($fname,$lname,$contact,$email,$paddress)) {
+        header("Location: add.php?inserted");
+    } else {
+        header("Location: add.php?failure");
+    }
+}
+
+if(isset($_GET['inserted'])) {
+    echo "Record was inserted successfully";
+} elseif(isset($_GET['failure'])) {
+    echo "ERROR while inserting record";
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -14,14 +29,39 @@ echo $contacts;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="main.css">
-    <title>Phonebook</title> 
+    <title>Add contact</title>
 </head>
-<body style="background-image: url('bg.jpg');">
+<body>
 
-<!-- Form for adding a new contact -->
-<?php require('form_add.php');?>
-
-<!-- Footer -->
-<?php include('footer.php'); ?>
+<div>
+    <form method="POST">
+        <table>
+            <tr>
+                <td>First Name</td>
+                <td><input type="text" name="firstName"/></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td><input type="text" name="lastName"/></td>
+            </tr>
+            <tr>
+                <td>Contact</td>
+                <td><input type="text" name="phoneNumber"/></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="text" name="email"/></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><input type="text" name="personAddress"/></td>
+            </tr>
+            <tr>
+                <button type="submit" name="btn-save">Create new record</button>
+            </tr>
+        </table>
+    </form>
+</div>
+    
+</body>
+</html>

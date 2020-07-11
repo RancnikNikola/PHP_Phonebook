@@ -1,56 +1,50 @@
 <?php 
 
-require('connection.php');
+include_once('dbconfig.php');
 
-$pdo = $conn->prepare("SELECT * FROM Contacts");
-$pdo->execute();
-$contacts = $pdo->fetchAll(PDO::FETCH_ASSOC);
+$subjects = $crud->get_all_subjects();
+
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <title>Phonebook</title>
+    <title>OOP Phonebook</title>
 </head>
 <body>
 
-<div class="table-responsive-sm">
-<table class="table table-hover table-dark">
-<tr style="background-color: grey; color: black">
+<div>
+<table>
+<tr>
+<th>ID</th>
 <th>First Name</th>
 <th>Last Name</th>
-<th>Phone</th>
+<th>Contact</th>
 <th>Email</th>
 <th>Address</th>
+<th>Delete</th>
 <th>Edit</th>
-<th>Remove</th>
 </tr>
-<?php foreach($contacts as $contact): ?>
+<?php foreach($subjects as $subject): ?>
 <tr>
-<th><?php echo $contact['firstName']; ?></th>
-<th><?php echo $contact['lastName']; ?></th>
-<th><?php echo $contact['phoneNumber']; ?></th>
-<th><?php echo $contact['email']; ?></th>
-<th><?php echo $contact['personAddress']; ?></th>
-<th><a class="action" href="<?php echo 'edit.php?id=' . $contact['id'] ?>">Edit</a></th>
-<th><a class="action" href="<?php echo 'remove.php?id=' . $contact['id'] ?>">Remove</a></th>
+<th><?php echo $subject['id']; ?></th>
+<th><?php echo $subject['firstName']; ?></th>
+<th><?php echo $subject['lastName']; ?></th>
+<th><?php echo $subject['phoneNumber']; ?></th>
+<th><?php echo $subject['email']; ?></th>
+<th><?php echo $subject['personAddress']; ?></th>
+<th><a href="<?php echo 'delete.php?id=' .$subject['id']; ?>">Delete</a></th>
+<th><a href="<?php echo 'edit.php?id=' .$subject['id']; ?>">Edit</a></th>
+
 </tr>
 <?php endforeach; ?>
+<a href="add.php">Add Contact</a>
 </table>
 </div>
-<div id="operations">
-    <a class="action" href="<?php echo 'add.php' ?>">Add New Contact</a>
-</div>
 
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>    
+    
 </body>
 </html>
-
-<?php $conn = null; ?>

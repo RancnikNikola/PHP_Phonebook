@@ -2,9 +2,9 @@
 
 // Information for connecting to DB
 $db_host = '127.0.0.1';
-$db_user = 'root';
-$db_pass = 'password';
-$db_name = 'phonebook';
+$db_user = 'your_username';
+$db_pass = 'your_password';
+$db_name = 'your_db_name';
 
 // Connect to the DB
 try {
